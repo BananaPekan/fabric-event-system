@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+
 @Mixin(Mouse.class)
 public abstract class MouseMixin {
 
@@ -18,6 +20,7 @@ public abstract class MouseMixin {
 
     @Inject(method = "onMouseButton", at = @At("HEAD"), cancellable = true)
     public void onMouseButtonInject(long window, int button, int action, int mods, CallbackInfo ci) {
+
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
             InputEvent.MouseEvent event = new InputEvent.MouseEvent(button, action);
             EventInvoker.invokeEventWithTypes(registeredClass, event, InputEvent.class, InputEvent.MouseEvent.class);
