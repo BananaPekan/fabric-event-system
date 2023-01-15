@@ -70,6 +70,8 @@ public class InputEvent extends Event {
             this.action = action;
         }
 
+        public record MouseData(long window, int button, int action, int mods) {}
+
         public void setButton(int button) {
             this.button = button;
         }

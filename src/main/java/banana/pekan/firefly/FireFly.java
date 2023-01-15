@@ -18,10 +18,5 @@ public class FireFly implements ModInitializer {
 		EventRegistry.registry.register(this);
 	}
 
-	@EventHandler
-	public void onMouseEvent(InputEvent.MouseEvent event) {
-		event.setAction(InputEvent.MouseEvent.MouseAction.getAction(Math.abs(1 - event.getAction().action)));
-	}
-
 
 }
