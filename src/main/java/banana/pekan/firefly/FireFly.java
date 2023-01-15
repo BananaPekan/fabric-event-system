@@ -16,6 +16,7 @@ public class FireFly implements ModInitializer {
 	public void onInitialize() {
 		EventRegistry.initialize();
 		EventRegistry.registry.register(this);
+		// Hi
 	}
 
 
