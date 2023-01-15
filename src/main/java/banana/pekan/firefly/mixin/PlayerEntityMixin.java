@@ -1,0 +1,82 @@
+package banana.pekan.firefly.mixin;
+
+import banana.pekan.firefly.event.Event;
+import banana.pekan.firefly.event.EventInvoker;
+import banana.pekan.firefly.event.EventRegistry;
+import banana.pekan.firefly.event.events.PlayerMoveEvent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@Mixin(PlayerEntity.class)
+public abstract class PlayerEntityMixin extends LivingEntity {
+
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
+    }
+
+    @Shadow public abstract float getMovementSpeed();
+
+    @Shadow public abstract void sendMessage(Text message, boolean overlay);
+
+    Vec3d movement;
+
+    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
+    public void tickMovementHead(CallbackInfo ci) {
+        if (movement == null) movement = new Vec3d(0, 0, 0);
+        if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
+
+
+            for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
+                PlayerMoveEvent.Pre event = new PlayerMoveEvent.Pre(world.getPlayerByUuid(getUuid()), movement);
+                EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Pre.class);
+
+                if (movement != event.getMovement()) {
+                    setPosition(getPos().add(event.getMovement()));
+                }
+
+                if (event.isCancelled()) {
+                    ci.cancel();
+                }
+
+            }
+
+        }
+        movement = getPos();
+    }
+
+    @Inject(method = "tickMovement", at = @At("TAIL"), cancellable = true)
+    public void tickMovementTail(CallbackInfo ci) {
+        movement = getPos().add(movement.negate());
+        if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
+
+            for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
+                PlayerMoveEvent.Post event = new PlayerMoveEvent.Post(world.getPlayerByUuid(getUuid()), movement);
+                EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Post.class);
+
+                if (movement != event.getMovement()) {
+                    setPosition(getPos().add(event.getMovement().subtract(movement)));
+                }
+
+                if (event.isCancelled()) {
+                    ci.cancel();
+                }
+
+            }
+
+        }
+    }
+
+}

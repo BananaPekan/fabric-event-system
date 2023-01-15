@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "firefly",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Firefly Event System",
+  "description": "This mod implements a basic events system for Minecraft.",
   "authors": [
-    "Me!"
+    "BananaPekan"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -14,16 +14,15 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "banana.pekan.firefly.FireFly"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "firefly.mixins.json"
   ],
 
   "depends": {
