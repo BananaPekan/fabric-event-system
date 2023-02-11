@@ -17,7 +17,7 @@ public class EventRegistry {
     }
 
     public static void initialize() {
-        registry = new EventRegistry();
+        if (registry == null) registry = new EventRegistry();
     }
 
     public void register(Object classToRegister) {

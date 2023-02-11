@@ -31,12 +31,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Shadow public abstract void sendMessage(Text message, boolean overlay);
 
+    @Shadow public abstract void dismountVehicle();
+
     Vec3d movement;
 
     @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
     public void tickMovementHead(CallbackInfo ci) {
         if (movement == null) movement = new Vec3d(0, 0, 0);
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
+
+            dismountVehicle();
 
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
@@ -78,5 +82,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
         }
     }
+
 
 }
