@@ -64,7 +64,6 @@ jar {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			groupId = 'com.github.BananaPekan'
 			from components.java
 		}
 	}
