@@ -66,8 +66,6 @@ jar {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifactId = 'fabric-event-system'
-			groupId = 'com.github.BananaPekan'
 			from components.java
 		}
 	}
