@@ -1,12 +1,12 @@
 package banana.pekan.firefly.mixin;
 
-import banana.pekan.firefly.event.Event;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
+import banana.pekan.firefly.event.events.EntityMoveEvent;
 import banana.pekan.firefly.event.events.PlayerMoveEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
@@ -17,21 +17,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+@Mixin(LivingEntity.class)
+public abstract class LivingEntityMixin extends Entity {
 
-@Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity {
-
-    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected LivingEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
-
-    @Shadow public abstract float getMovementSpeed();
-
-    @Shadow public abstract void sendMessage(Text message, boolean overlay);
-
-    @Shadow public abstract void dismountVehicle();
 
     Vec3d movement;
 
@@ -44,8 +35,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                PlayerMoveEvent.Pre event = new PlayerMoveEvent.Pre(world.getPlayerByUuid(getUuid()), movement);
-                EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Pre.class);
+                EntityMoveEvent.Pre event = new EntityMoveEvent.Pre(world.getEntityById(getId()), movement);
+                EventInvoker.invokeEventWithTypes(registeredClass, event, EntityMoveEvent.class, EntityMoveEvent.Pre.class);
 
                 if (movement != event.getMovement()) {
                     setPosition(getPos().add(event.getMovement()));
@@ -67,8 +58,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                PlayerMoveEvent.Post event = new PlayerMoveEvent.Post(world.getPlayerByUuid(getUuid()), movement);
-                EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Post.class);
+                EntityMoveEvent.Post event = new EntityMoveEvent.Post(world.getEntityById(getId()), movement);
+                EventInvoker.invokeEventWithTypes(registeredClass, event, EntityMoveEvent.class, EntityMoveEvent.Post.class);
 
                 if (movement != event.getMovement()) {
                     setPosition(getPos().add(event.getMovement().subtract(movement)));
