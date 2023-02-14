@@ -17,7 +17,7 @@ public class EntityMoveEvent extends Event {
     public EntityMoveEvent(Entity entity, Vec3d movement) {
         this.entity = entity;
         this.movement = movement;
-        this.entityType = entity.getType();
+        this.entityType = entity == null ? null : entity.getType();
     }
 
     public static class Pre extends EntityMoveEvent {
