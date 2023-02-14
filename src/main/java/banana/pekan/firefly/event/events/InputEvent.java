@@ -33,7 +33,7 @@ public class InputEvent extends Event {
             return KeyAction.getAction(action);
         }
 
-        enum KeyAction {
+        public enum KeyAction {
             Pressed(1), Released(0), Held(2);
 
             final int action;
