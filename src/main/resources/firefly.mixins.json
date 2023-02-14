@@ -12,6 +12,7 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "KeyboardMixin",
+    "MinecraftClientMixin",
     "MouseMixin"
   ],
   "injectors": {
