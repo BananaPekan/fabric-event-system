@@ -7,12 +7,10 @@ public class EventRegistry {
 
     public static EventRegistry registry;
 
-    private ArrayList<Object> registered;
-    private ArrayList<Event> events;
+    private final ArrayList<Object> registered = new ArrayList<>();
+    private final ArrayList<Event> events = new ArrayList<>();
 
     public EventRegistry() {
-        registered = new ArrayList<>();
-        events = new ArrayList<>();
         registry = this;
     }
 
