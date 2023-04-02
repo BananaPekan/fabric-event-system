@@ -5,7 +5,7 @@ A basic Event System for minecraft's Fabric mod loader.
 
 *Usage:*
 
-``Put this code in the onInitialize function of the mod:``
+Put this code in the onInitialize function of the mod:
 ```java
 // Initialize the event registry
 EventRegistry.initialize();
@@ -14,7 +14,7 @@ EventRegistry.initialize();
 EventRegistry.registry.register(eventListener);
 ```
 
-``To invoke a function at a certain event use functions like in this example:``
+To invoke a function at a certain event use functions like in this example:
 ```java
 	@EventHandler
 	public void onPacketEvent(PacketEvent event) {
