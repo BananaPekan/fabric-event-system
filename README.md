@@ -16,13 +16,13 @@ EventRegistry.registry.register(eventListener);
 
 To invoke a function at a certain event use functions like in this example:
 ```java
-	@EventHandler
-	public void onPacketEvent(PacketEvent event) {
-		Packet<?> packet = event.getPacket();
-		if (packet instanceof PlayerMoveC2SPacket) {
-			event.cancel();
-		}
-	}
+@EventHandler
+public void onPacketEvent(PacketEvent event) {
+    Packet<?> packet = event.getPacket();
+    if (packet instanceof PlayerMoveC2SPacket) {
+        event.cancel();
+    }
+}
 ```
 
 
