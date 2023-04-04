@@ -1,7 +1,7 @@
 package banana.pekan.firefly.event.events;
 
 import banana.pekan.firefly.event.Event;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 public class PacketEvent extends Event {
 
