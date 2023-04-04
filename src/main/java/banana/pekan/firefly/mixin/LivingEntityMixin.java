@@ -2,13 +2,16 @@ package banana.pekan.firefly.mixin;
 
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
-import banana.pekan.firefly.event.events.EntityMoveEvent;
-import banana.pekan.firefly.event.events.PlayerMoveEvent;
+import banana.pekan.firefly.event.events.ItemUseEvent;
+import banana.pekan.firefly.event.events.entity.EntityMoveEvent;
+import banana.pekan.firefly.event.events.player.EntityBedEnterEvent;
+import banana.pekan.firefly.event.events.player.EntityBedLeaveEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,6 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
+
+    @Shadow public abstract ItemStack getStackInHand(Hand hand);
+
+    @Shadow public abstract boolean isUsingItem();
 
     protected LivingEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -73,6 +80,54 @@ public abstract class LivingEntityMixin extends Entity {
 
         }
     }
+
+    @Inject(method = "sleep", at = @At("HEAD"), cancellable = true)
+    public void sleep(BlockPos pos, CallbackInfo ci) {
+        for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
+            Entity entity = world.getEntityById(getId());
+            if (!(entity instanceof LivingEntity)) continue;
+            EntityBedEnterEvent event = new EntityBedEnterEvent((LivingEntity) entity, pos);
+            EventInvoker.invokeEventWithTypes(registeredClass, event, EntityBedEnterEvent.class);
+
+            if (event.isCancelled()) {
+                ci.cancel();
+            }
+
+        }
+    }
+
+    @Inject(method = "wakeUp", at = @At("HEAD"), cancellable = true)
+    public void wakeUp(CallbackInfo ci) {
+        for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
+            Entity entity = world.getEntityById(getId());
+            if (!(entity instanceof LivingEntity livingEntity)) continue;
+            if (livingEntity.getSleepingPosition().isEmpty()) continue;
+            EntityBedLeaveEvent event = new EntityBedLeaveEvent(livingEntity, livingEntity.getSleepingPosition().get());
+            EventInvoker.invokeEventWithTypes(registeredClass, event, EntityBedLeaveEvent.class);
+
+            if (event.isCancelled()) {
+                ci.cancel();
+            }
+
+        }
+    }
+
+    @Inject(method = "setCurrentHand", at = @At("HEAD"), cancellable = true)
+    public void setCurrentHand(Hand hand, CallbackInfo ci) {
+        ItemStack itemStack = getStackInHand(hand);
+        if (!itemStack.isEmpty() && !isUsingItem() && !this.world.isClient) {
+            for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
+                ItemUseEvent event = new ItemUseEvent(itemStack, itemStack.getItem());
+                EventInvoker.invokeEventWithTypes(registeredClass, event, ItemUseEvent.class);
+
+                if (event.isCancelled()) {
+                    ci.cancel();
+                }
+
+            }
+        }
+    }
+
 
 
 }

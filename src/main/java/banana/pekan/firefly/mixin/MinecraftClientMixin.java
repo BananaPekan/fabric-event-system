@@ -3,7 +3,6 @@ package banana.pekan.firefly.mixin;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
 import banana.pekan.firefly.event.events.ClientTickEvent;
-import banana.pekan.firefly.event.events.InputEvent;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

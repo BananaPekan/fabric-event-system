@@ -2,16 +2,9 @@ package banana.pekan.firefly;
 
 import banana.pekan.firefly.event.EventHandler;
 import banana.pekan.firefly.event.EventRegistry;
-import banana.pekan.firefly.event.events.*;
+import banana.pekan.firefly.event.events.player.EntityBedEnterEvent;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +14,18 @@ public class FireFly implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-//		EventRegistry.initialize();
-//		EventRegistry.registry.register(this);
+		EventRegistry.initialize();
+		EventRegistry.registry.register(this);
 	}
 
+	@EventHandler
+	public void onPlayerSleepEvent(EntityBedEnterEvent event) {
+		if (event.getEntity() instanceof PlayerEntity) {
+//			World world = event.getEntity().world;
+//			TntEntity tnt = new TntEntity(EntityType.TNT, world);
+//			tnt.setPosition(event.getEntity().getPos());
+//			world.spawnEntity(tnt);
+//			event.cancel();
+		}
+	}
 }

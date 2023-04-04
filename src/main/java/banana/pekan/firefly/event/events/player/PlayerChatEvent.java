@@ -1,4 +1,4 @@
-package banana.pekan.firefly.event.events;
+package banana.pekan.firefly.event.events.player;
 
 import banana.pekan.firefly.event.Event;
 

@@ -10,7 +10,9 @@
     "PlayerEntityMixin"
   ],
   "client": [
+    "ChatHudMixin",
     "ClientPlayNetworkHandlerMixin",
+    "ConnectScreenMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
     "MouseMixin"

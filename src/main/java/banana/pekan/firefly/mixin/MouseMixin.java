@@ -3,15 +3,12 @@ package banana.pekan.firefly.mixin;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
 import banana.pekan.firefly.event.events.InputEvent;
-import banana.pekan.firefly.event.events.PacketEvent;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.ArrayList;
 
 @Mixin(Mouse.class)
 public abstract class MouseMixin {

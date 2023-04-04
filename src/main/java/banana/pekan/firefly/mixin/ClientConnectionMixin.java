@@ -3,7 +3,6 @@ package banana.pekan.firefly.mixin;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
 import banana.pekan.firefly.event.events.PacketEvent;
-import banana.pekan.firefly.event.events.PlayerMoveEvent;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.PacketListener;
