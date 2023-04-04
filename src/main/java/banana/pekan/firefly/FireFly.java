@@ -14,18 +14,7 @@ public class FireFly implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		EventRegistry.initialize();
-		EventRegistry.registry.register(this);
+
 	}
 
-	@EventHandler
-	public void onPlayerSleepEvent(EntityBedEnterEvent event) {
-		if (event.getEntity() instanceof PlayerEntity) {
-//			World world = event.getEntity().world;
-//			TntEntity tnt = new TntEntity(EntityType.TNT, world);
-//			tnt.setPosition(event.getEntity().getPos());
-//			world.spawnEntity(tnt);
-//			event.cancel();
-		}
-	}
 }
