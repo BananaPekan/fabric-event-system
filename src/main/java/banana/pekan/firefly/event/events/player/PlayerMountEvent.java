@@ -1,8 +1,7 @@
-package banana.pekan.firefly.event.events;
+package banana.pekan.firefly.event.events.player;
 
 import banana.pekan.firefly.event.Event;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class PlayerMountEvent extends Event {

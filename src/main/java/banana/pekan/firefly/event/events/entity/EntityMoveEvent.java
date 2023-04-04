@@ -1,9 +1,8 @@
-package banana.pekan.firefly.event.events;
+package banana.pekan.firefly.event.events.entity;
 
 import banana.pekan.firefly.event.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityMoveEvent extends Event {

@@ -3,7 +3,7 @@ package banana.pekan.firefly.mixin;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
 import banana.pekan.firefly.event.events.PacketEvent;
-import banana.pekan.firefly.event.events.PlayerChatEvent;
+import banana.pekan.firefly.event.events.player.PlayerChatEvent;
 import banana.pekan.firefly.mixininterface.ClientPlayNetworkHandlerInterface;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.Packet;
