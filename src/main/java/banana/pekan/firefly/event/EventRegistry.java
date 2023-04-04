@@ -26,10 +26,6 @@ public class EventRegistry {
         registered.remove(registeredClass);
     }
 
-    public void clearRegistry() {
-        registered.clear();
-    }
-
     public List<Object> getRegisteredClasses() {
         return registered;
     }
