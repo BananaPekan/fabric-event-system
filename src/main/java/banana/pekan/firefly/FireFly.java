@@ -16,6 +16,5 @@ public class FireFly implements ModInitializer {
 	public void onInitialize() {
 		
 	}
-
-
+  
 }
