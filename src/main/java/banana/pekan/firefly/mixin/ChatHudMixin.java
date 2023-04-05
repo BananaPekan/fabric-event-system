@@ -3,7 +3,6 @@ package banana.pekan.firefly.mixin;
 import banana.pekan.firefly.event.EventInvoker;
 import banana.pekan.firefly.event.EventRegistry;
 import banana.pekan.firefly.event.events.ChatMessageEvent;
-import banana.pekan.firefly.event.events.InputEvent;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
@@ -24,7 +23,7 @@ public abstract class ChatHudMixin {
     public void addMessageHead(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci) {
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
             ChatMessageEvent.Appear event = new ChatMessageEvent.Appear(message.getString());
-            EventInvoker.invokeEventWithTypes(registeredClass, event, InputEvent.class, InputEvent.KeyEvent.class);
+            EventInvoker.invokeEventWithTypes(registeredClass, event, ChatMessageEvent.Appear.class, ChatMessageEvent.class);
 
             if (event.isCancelled()) {
                 ci.cancel();
