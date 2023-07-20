@@ -42,7 +42,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                EntityMoveEvent.Pre event = new EntityMoveEvent.Pre(world.getEntityById(getId()), movement);
+                EntityMoveEvent.Pre event = new EntityMoveEvent.Pre(getWorld().getEntityById(getId()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, EntityMoveEvent.class, EntityMoveEvent.Pre.class);
 
                 if (movement != event.getMovement()) {
@@ -65,7 +65,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                EntityMoveEvent.Post event = new EntityMoveEvent.Post(world.getEntityById(getId()), movement);
+                EntityMoveEvent.Post event = new EntityMoveEvent.Post(getWorld().getEntityById(getId()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, EntityMoveEvent.class, EntityMoveEvent.Post.class);
 
                 if (movement != event.getMovement()) {
@@ -84,7 +84,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "sleep", at = @At("HEAD"), cancellable = true)
     public void sleep(BlockPos pos, CallbackInfo ci) {
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-            Entity entity = world.getEntityById(getId());
+            Entity entity = getWorld().getEntityById(getId());
             if (!(entity instanceof LivingEntity)) continue;
             EntityBedEnterEvent event = new EntityBedEnterEvent((LivingEntity) entity, pos);
             EventInvoker.invokeEventWithTypes(registeredClass, event, EntityBedEnterEvent.class);
@@ -99,7 +99,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "wakeUp", at = @At("HEAD"), cancellable = true)
     public void wakeUp(CallbackInfo ci) {
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-            Entity entity = world.getEntityById(getId());
+            Entity entity = getWorld().getEntityById(getId());
             if (!(entity instanceof LivingEntity livingEntity)) continue;
             if (livingEntity.getSleepingPosition().isEmpty()) continue;
             EntityBedLeaveEvent event = new EntityBedLeaveEvent(livingEntity, livingEntity.getSleepingPosition().get());
@@ -115,7 +115,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "setCurrentHand", at = @At("HEAD"), cancellable = true)
     public void setCurrentHand(Hand hand, CallbackInfo ci) {
         ItemStack itemStack = getStackInHand(hand);
-        if (!itemStack.isEmpty() && !isUsingItem() && !this.world.isClient) {
+        if (!itemStack.isEmpty() && !isUsingItem() && !getWorld().isClient) {
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
                 ItemUseEvent event = new ItemUseEvent(itemStack, itemStack.getItem());
                 EventInvoker.invokeEventWithTypes(registeredClass, event, ItemUseEvent.class);

@@ -39,7 +39,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                PlayerMoveEvent.Pre event = new PlayerMoveEvent.Pre(world.getPlayerByUuid(getUuid()), movement);
+                PlayerMoveEvent.Pre event = new PlayerMoveEvent.Pre(getWorld().getPlayerByUuid(getUuid()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Pre.class);
 
                 if (movement != event.getMovement()) {
@@ -62,7 +62,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
 
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
-                PlayerMoveEvent.Post event = new PlayerMoveEvent.Post(world.getPlayerByUuid(getUuid()), movement);
+                PlayerMoveEvent.Post event = new PlayerMoveEvent.Post(getWorld().getPlayerByUuid(getUuid()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Post.class);
 
                 if (movement != event.getMovement()) {
