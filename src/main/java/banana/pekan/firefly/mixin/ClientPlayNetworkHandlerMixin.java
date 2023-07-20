@@ -32,7 +32,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayNetwork
     @Shadow private MessageChain.Packer messagePacker;
     @Shadow public abstract void sendChatMessage(String content);
 
-    @Inject(method = "sendPacket", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "sendPacket*", at = @At("HEAD"), cancellable = true)
     public void sendPacketInject(Packet<?> packet, CallbackInfo ci) {
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
             PacketEvent.Send event = new PacketEvent.Send(packet);
