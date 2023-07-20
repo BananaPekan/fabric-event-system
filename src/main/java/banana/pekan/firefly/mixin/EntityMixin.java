@@ -31,6 +31,7 @@ public abstract class EntityMixin {
 
     @Inject(method = "startRiding(Lnet/minecraft/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
     public void startRiding(Entity entity, boolean force, CallbackInfoReturnable<Boolean> cir) {
+
         if (getType() != EntityType.PLAYER) return;
         for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
             PlayerMountEvent event = new PlayerMountEvent((PlayerEntity) world.getEntityById(id), entity);
