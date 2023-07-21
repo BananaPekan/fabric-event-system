@@ -34,10 +34,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public void tickMovementHead(CallbackInfo ci) {
         if (movement == null) movement = new Vec3d(0, 0, 0);
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
-
-            dismountVehicle();
-
-
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
                 PlayerMoveEvent.Pre event = new PlayerMoveEvent.Pre(getWorld().getPlayerByUuid(getUuid()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, PlayerMoveEvent.class, PlayerMoveEvent.Pre.class);

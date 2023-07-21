@@ -37,10 +37,6 @@ public abstract class LivingEntityMixin extends Entity {
     public void tickMovementHead(CallbackInfo ci) {
         if (movement == null) movement = new Vec3d(0, 0, 0);
         if (movement.x != 0 || movement.y != 0 || movement.z != 0) {
-
-            dismountVehicle();
-
-
             for (Object registeredClass : EventRegistry.registry.getRegisteredClasses()) {
                 EntityMoveEvent.Pre event = new EntityMoveEvent.Pre(getWorld().getEntityById(getId()), movement);
                 EventInvoker.invokeEventWithTypes(registeredClass, event, EntityMoveEvent.class, EntityMoveEvent.Pre.class);
