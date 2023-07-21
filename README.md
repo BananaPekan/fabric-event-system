@@ -1,9 +1,28 @@
-# Fabric Example Mod
+# Fabric Event System
+[![](https://jitpack.io/v/BananaPekan/fabric-event-system.svg)](https://jitpack.io/#BananaPekan/fabric-event-system)
 
-## Setup
+A basic Event System for minecraft's Fabric mod loader.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+*Usage:*
 
-## License
+Put this code in the onInitialize function of the mod:
+```java
+// Initialize the event registry
+EventRegistry.initialize();
+// Create a class for listening for events,
+// and register it by using the function below with an instance of that class.
+EventRegistry.registry.register(eventListener);
+```
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+To invoke a function at a certain event use functions like in this example:
+```java
+@EventHandler
+public void onPacketEvent(PacketEvent event) {
+    Packet<?> packet = event.getPacket();
+    if (packet instanceof PlayerMoveC2SPacket) {
+        event.cancel();
+    }
+}
+```
+
+
